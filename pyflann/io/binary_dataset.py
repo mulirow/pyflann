@@ -24,8 +24,7 @@
 #(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from __future__ import with_statement
-
+from multiprocessing.sharedctypes import Value
 from pyflann.exceptions import FLANNException
 import numpy
 import os.path
@@ -62,7 +61,7 @@ def load(filename, rows = -1, cols = -1, dtype = numpy.float32):
             dtype = numpy.dtype(fd.readline().strip())
     else:
         if rows==-1 or cols==-1:
-            raise "No .meta file present, you must specify dataset rows, cols asd dtype"
+            raise ValueError("No .meta file present, you must specify dataset rows, cols asd dtype")
     data = numpy.fromfile(file=filename, dtype=dtype, count=rows*cols)
     data.shape = (rows,cols)
     return data

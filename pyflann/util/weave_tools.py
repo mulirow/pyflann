@@ -94,7 +94,7 @@ class CModule:
             #self.customize.add_extra_compile_arg('-Wno-unused')
         
 
-    def get_name():
+    def get_name(self):
         return self._module_name
 
     def include(self,header):
@@ -121,7 +121,7 @@ class CModule:
             defaults = [] if defaults==None else defaults
             if len(args) != len(defaults):
                 raise Exception("The %s function must have default values for all arguments"%name)
-            arg_tuples = zip(args,defaults) + list(varargs)
+            arg_tuples = list(args,defaults) + list(varargs)
             self.add_function(name,code,*arg_tuples)
             return func
         return decorate        
@@ -138,7 +138,7 @@ class CModule:
         defaults = [] if defaults==None else defaults
         if len(args) != len(defaults):
             raise Exception("The %s function must have default values for all arguments"%name)
-        vardict = dict(zip(args,defaults))
+        vardict = dict(list(args,defaults))
         self.extension.add_function(ext_tools.ext_function(name, code, args, local_dict = vardict))
         return func
         
@@ -165,7 +165,7 @@ class CStruct:
         format = join([ s for (s,_,_) in members],'')
         self.__struct_dict = dict( (v for (_,v,_) in members) )
         self.__translation_dict = dict( ( (k[0],v) for (_,k,v) in members if v != None))
-        print self.__translation_dict
+        print(self.__translation_dict)
         self.__struct = struct.Struct(format)
         
         
